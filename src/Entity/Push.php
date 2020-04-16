@@ -12,7 +12,7 @@ namespace Dreibein\ContaoPushBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="SimonReitinger\ContaoPushBundle\Repository\PushRepository")
+ * @ORM\Entity(repositoryClass="Dreibein\ContaoPushBundle\Repository\PushRepository")
  * @ORM\Table("tl_push")
  */
 class Push

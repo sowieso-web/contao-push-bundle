@@ -5,9 +5,9 @@
   "author": "Simon Reitinger",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/simonreitinger/contao-push-bundle/issues"
+    "url": "https://github.com/dreibein/contao-push-bundle/issues"
   },
-  "homepage": "https://github.com/simonreitinger/contao-push-bundle#readme",
+  "homepage": "https://github.com/dreibein/contao-push-bundle#readme",
   "devDependencies": {
     "uglify-js": "^3.8.1"
   }

@@ -70,7 +70,7 @@ class Plugin implements BundlePluginInterface, ConfigPluginInterface, RoutingPlu
     {
         // translations
         if ($extensionName === 'framework') {
-            $extensionConfigs[0]['translator']['paths'][] = '%kernel.project_dir%/vendor/simonreitinger/contao-push-bundle/src/Resources/translations';
+            $extensionConfigs[0]['translator']['paths'][] = '%kernel.project_dir%/vendor/dreibein/contao-push-bundle/src/Resources/translations';
         }
 
         // doctrine mapping
