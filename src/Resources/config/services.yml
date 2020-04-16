@@ -1,0 +1,45 @@
+services:
+    Dreibein\ContaoPushBundle\Controller\PushController:
+        public: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@contao_push.repository.push'
+            - '@monolog.logger.contao'
+
+    contao_push.controller.module_push_notification_button:
+        class: Dreibein\ContaoPushBundle\Controller\FrontendModule\PushNotificationButton
+        arguments:
+            - '@parameter_bag'
+        tags:
+            - { name: contao.frontend_module, category: push }
+
+    contao_push.data_container.news:
+        class: Dreibein\ContaoPushBundle\DataContainer\News
+        arguments:
+            - '@contao_push.manager'
+            - '@request_stack'
+            - '@contao.framework'
+        tags:
+            - { name: contao.callback, target: config.onload, table: tl_news, method: onLoad }
+
+    contao_push.listener.symlink.service_worker:
+        class: Dreibein\ContaoPushBundle\EventListener\ServiceWorkerSymlinkListener
+        tags:
+            - { name: kernel.event_listener, event: contao.generate_symlinks, method: onGenerateSymlinks, priority: 128 }
+
+    contao_push.manager:
+        class: Dreibein\ContaoPushBundle\Push\PushManager
+        public: true
+        arguments:
+            - '@minishlink_web_push'
+            - '@doctrine.orm.entity_manager'
+            - '@contao_push.repository.push'
+            - '@monolog.logger.contao'
+
+    contao_push.repository.push:
+        class: Dreibein\ContaoPushBundle\Repository\PushRepository
+        public: true
+        arguments:
+            - '@doctrine'
+        tags:
+            - { name: doctrine.repository_service }

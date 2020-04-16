@@ -1,0 +1,8 @@
+<button
+    id="push-subscription-button"
+    data-enable="{{trans::push_enable::push_notification}}"
+    data-disable="{{trans::push_disable::push_notification}}"
+>
+    {{trans::push_enable::push_notification}}
+</button>
+

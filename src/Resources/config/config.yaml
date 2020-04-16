@@ -1,0 +1,4 @@
+framework:
+    translator:
+        paths:
+            - '%kernel.project_dir%/vendor/dreibein/contao-push-bundle/src/Resources/translations'

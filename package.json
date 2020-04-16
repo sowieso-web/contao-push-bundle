@@ -1,0 +1,14 @@
+{
+  "name": "contao-push-bundle",
+  "version": "1.0.0",
+  "description": "Send Push Notifications with Contao.",
+  "author": "Simon Reitinger",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/simonreitinger/contao-push-bundle/issues"
+  },
+  "homepage": "https://github.com/simonreitinger/contao-push-bundle#readme",
+  "devDependencies": {
+    "uglify-js": "^3.8.1"
+  }
+}

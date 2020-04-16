@@ -1,0 +1,4 @@
+contao_push:
+    resource: '../../Controller'
+    type: annotation
+
