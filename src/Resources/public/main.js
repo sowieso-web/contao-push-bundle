@@ -8,10 +8,13 @@ if ('serviceWorker' in navigator) {
         }
 
         // Check if the the current OS is iOS
-        var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-        if (!iOS) {
-            pushButton.style.display = 'inherit';
+        let iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        if (iOS) {
+            return;
         }
+
+        // show the button
+        pushButton.style.display = 'inherit';
 
         pushButton.addEventListener('click', function() {
             isPushEnabled ? pushUnsubscribe() : pushSubscribe();

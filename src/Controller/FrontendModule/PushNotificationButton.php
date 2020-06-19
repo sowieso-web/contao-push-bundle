@@ -37,7 +37,7 @@ class PushNotificationButton extends AbstractFrontendModuleController
             $GLOBALS['TL_BODY']['contao_push_key'] = sprintf("<script>const applicationServerKey = '%s';</script>", $publicKey);
         }
 
-        $GLOBALS['TL_BODY']['contao_push'] = Template::generateScriptTag('/bundles/contaopush/main.min.js');
+        $GLOBALS['TL_BODY']['contao_push'] = Template::generateScriptTag('/bundles/contaopush/main.js');
 
         return $template->getResponse();
     }
