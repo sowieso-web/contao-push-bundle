@@ -7,6 +7,12 @@ if ('serviceWorker' in navigator) {
             return;
         }
 
+        // Check if the the current OS is iOS
+        var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        if (!iOS) {
+            pushButton.style.display = 'inherit';
+        }
+
         pushButton.addEventListener('click', function() {
             isPushEnabled ? pushUnsubscribe() : pushSubscribe();
         });

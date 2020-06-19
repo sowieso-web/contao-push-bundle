@@ -3,6 +3,7 @@
     class="<?= $this->class ?>"
     data-enable="{{trans::push_enable::push_notification}}"
     data-disable="{{trans::push_disable::push_notification}}"
+    style="display: none;"
 >
     {{trans::push_enable::push_notification}}
 </button>
