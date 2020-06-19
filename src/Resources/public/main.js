@@ -2,19 +2,21 @@ if ('serviceWorker' in navigator) {
     document.addEventListener('DOMContentLoaded', () => {
         let isPushEnabled = false;
 
+        const pushContainer = document.getElementById('push-subscription-container');
         const pushButton = document.getElementById('push-subscription-button');
-        if (!pushButton) {
+        if (!pushContainer || !pushButton) {
             return;
         }
 
         // Check if the the current OS is iOS
         let iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
         if (iOS) {
+            // iOS does not support push notifications
             return;
         }
 
-        // show the button
-        pushButton.style.display = 'inherit';
+        // show the button container
+        pushContainer.style.display = 'block';
 
         pushButton.addEventListener('click', function() {
             isPushEnabled ? pushUnsubscribe() : pushSubscribe();
@@ -75,6 +77,9 @@ if ('serviceWorker' in navigator) {
                 case 'incompatible':
                     pushButton.disabled = true;
                     console.error('Push notifications are not compatible with this browser');
+
+                    // hide the button container because push notifications are not compatible
+                    pushContainer.style.display = 'none';
                     break;
                 default:
                     console.error('Unhandled push button state', state);

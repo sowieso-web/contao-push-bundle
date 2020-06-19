@@ -1,10 +1,10 @@
-<button
-    id="push-subscription-button"
-    class="<?= $this->class ?>"
-    data-enable="{{trans::push_enable::push_notification}}"
-    data-disable="{{trans::push_disable::push_notification}}"
-    style="display: none;"
->
-    {{trans::push_enable::push_notification}}
-</button>
-
+<div id="push-subscription-container" style="display: none">
+    <button
+            id="push-subscription-button"
+            class="<?= $this->class ?>"
+            data-enable="{{trans::push_enable::push_notification}}"
+            data-disable="{{trans::push_disable::push_notification}}"
+    >
+        {{trans::push_enable::push_notification}}
+    </button>
+</div>
