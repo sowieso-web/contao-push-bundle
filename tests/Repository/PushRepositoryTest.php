@@ -9,13 +9,13 @@ declare(strict_types=1);
 
 namespace Dreibein\ContaoPushBundle\Tests\Repository;
 
-use Doctrine\Persistence\ManagerRegistry;
-use PHPUnit\Framework\TestCase;
 use Dreibein\ContaoPushBundle\Repository\PushRepository;
+use PHPUnit\Framework\TestCase;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 
 class PushRepositoryTest extends TestCase
 {
-    public function test__construct(): void
+    public function testConstruct(): void
     {
         $registry = $this->createMock(ManagerRegistry::class);
 

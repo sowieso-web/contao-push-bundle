@@ -10,14 +10,14 @@ declare(strict_types=1);
 namespace Dreibein\ContaoPushBundle\Tests\Push;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Dreibein\ContaoPushBundle\Entity\Push;
+use Dreibein\ContaoPushBundle\Push\PushManager;
+use Dreibein\ContaoPushBundle\Repository\PushRepository;
 use Minishlink\WebPush\MessageSentReport;
 use Minishlink\WebPush\WebPush;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
-use Dreibein\ContaoPushBundle\Entity\Push;
-use Dreibein\ContaoPushBundle\Push\PushManager;
-use Dreibein\ContaoPushBundle\Repository\PushRepository;
 
 class PushManagerTest extends TestCase
 {
@@ -54,6 +54,8 @@ class PushManagerTest extends TestCase
      *
      * @param mixed $data
      * @param mixed $subscriptionLength
+     * @param mixed $successful
+     * @param mixed $loggerMethod
      */
     public function testSendNotification(string $title, string $body, $data, $subscriptionLength, $successful, $loggerMethod): void
     {
@@ -92,7 +94,6 @@ class PushManagerTest extends TestCase
             ->method('flush')
             ->willReturnCallback(function () use ($report) {
                 yield $report;
-                return;
             })
         ;
 
@@ -114,7 +115,7 @@ class PushManagerTest extends TestCase
             ['url' => 'https://example.com/path/to/resource'],
             3,
             true,
-            'info'
+            'info',
         ];
 
         yield 'Some subscriptions that fail' => [
@@ -123,7 +124,7 @@ class PushManagerTest extends TestCase
             ['url' => 'https://example.com/path/to/resource'],
             2,
             false,
-            'error'
+            'error',
         ];
     }
 

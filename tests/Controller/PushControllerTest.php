@@ -10,11 +10,11 @@ declare(strict_types=1);
 namespace Dreibein\ContaoPushBundle\Tests\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
-use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
 use Dreibein\ContaoPushBundle\Controller\PushController;
 use Dreibein\ContaoPushBundle\Entity\Push;
 use Dreibein\ContaoPushBundle\Repository\PushRepository;
+use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class PushControllerTest extends TestCase

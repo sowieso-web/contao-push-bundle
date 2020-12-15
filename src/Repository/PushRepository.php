@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace Dreibein\ContaoPushBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Dreibein\ContaoPushBundle\Entity\Push;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 
 /**
  * @method Push|null find($id, $lockMode = null, $lockVersion = null)

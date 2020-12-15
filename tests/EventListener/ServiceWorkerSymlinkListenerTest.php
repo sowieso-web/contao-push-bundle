@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace Dreibein\ContaoPushBundle\Tests\EventListener;
 
 use Contao\CoreBundle\Event\GenerateSymlinksEvent;
-use PHPUnit\Framework\TestCase;
 use Dreibein\ContaoPushBundle\EventListener\ServiceWorkerSymlinkListener;
+use PHPUnit\Framework\TestCase;
 
 class ServiceWorkerSymlinkListenerTest extends TestCase
 {

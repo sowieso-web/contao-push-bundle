@@ -11,12 +11,11 @@ namespace Dreibein\ContaoPushBundle\Push;
 
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Doctrine\ORM\EntityManagerInterface;
-use Minishlink\WebPush\MessageSentReport;
+use Dreibein\ContaoPushBundle\Entity\Push;
+use Dreibein\ContaoPushBundle\Repository\PushRepository;
 use Minishlink\WebPush\Subscription;
 use Minishlink\WebPush\WebPush;
 use Psr\Log\LoggerInterface;
-use Dreibein\ContaoPushBundle\Entity\Push;
-use Dreibein\ContaoPushBundle\Repository\PushRepository;
 
 class PushManager
 {

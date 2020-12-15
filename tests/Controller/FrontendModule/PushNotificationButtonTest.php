@@ -11,8 +11,8 @@ namespace Dreibein\ContaoPushBundle\Tests\Controller\FrontendModule;
 
 use Contao\ModuleModel;
 use Contao\Template;
-use PHPUnit\Framework\TestCase;
 use Dreibein\ContaoPushBundle\Controller\FrontendModule\PushNotificationButton;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 

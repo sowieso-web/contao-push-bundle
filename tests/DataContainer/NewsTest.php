@@ -11,9 +11,9 @@ namespace Dreibein\ContaoPushBundle\Tests\DataContainer;
 
 use Contao\CoreBundle\Framework\Adapter;
 use Contao\CoreBundle\Framework\ContaoFramework;
-use PHPUnit\Framework\TestCase;
 use Dreibein\ContaoPushBundle\DataContainer\News;
 use Dreibein\ContaoPushBundle\Push\PushManager;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 

@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Dreibein\ContaoPushBundle\Tests\Entity;
 
-use PHPUnit\Framework\TestCase;
 use Dreibein\ContaoPushBundle\Entity\Push;
+use PHPUnit\Framework\TestCase;
 
 class PushTest extends TestCase
 {
