@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /*
  * This file is part of the Contao Push Bundle.
- * (c) Werbeagentur Dreibein GmbH
+ * (c) Digitalagentur Dreibein GmbH
  */
 
 namespace Dreibein\ContaoPushBundle\ContaoManager;
@@ -23,13 +23,16 @@ use Minishlink\Bundle\WebPushBundle\MinishlinkWebPushBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Routing\RouteCollection;
 
 class Plugin implements BundlePluginInterface, ConfigPluginInterface, RoutingPluginInterface, ExtensionPluginInterface
 {
     /**
-     * {@inheritdoc}
+     * @param ParserInterface $parser
+     *
+     * @return array
      */
-    public function getBundles(ParserInterface $parser)
+    public function getBundles(ParserInterface $parser): array
     {
         return [
             BundleConfig::create(MinishlinkWebPushBundle::class),
@@ -43,19 +46,27 @@ class Plugin implements BundlePluginInterface, ConfigPluginInterface, RoutingPlu
     }
 
     /**
-     * {@inheritdoc}
+     * @param LoaderInterface $loader
+     * @param array           $managerConfig
+     *
+     * @throws \Exception
      */
     public function registerContainerConfiguration(LoaderInterface $loader, array $managerConfig): void
     {
-        $loader->load(__DIR__ . '/../Resources/config/services.yml');
+        $loader->load(__DIR__ . '/../../config/services.yaml');
     }
 
     /**
-     * {@inheritdoc}
+     * @param LoaderResolverInterface $resolver
+     * @param KernelInterface         $kernel
+     *
+     * @throws \Exception
+     *
+     * @return RouteCollection|null
      */
-    public function getRouteCollection(LoaderResolverInterface $resolver, KernelInterface $kernel)
+    public function getRouteCollection(LoaderResolverInterface $resolver, KernelInterface $kernel): ?RouteCollection
     {
-        $file = __DIR__ . '/../Resources/config/routing.yml';
+        $file = __DIR__ . '/../../config/routing.yaml';
 
         return $resolver
             ->resolve($file)
@@ -64,17 +75,21 @@ class Plugin implements BundlePluginInterface, ConfigPluginInterface, RoutingPlu
     }
 
     /**
-     * {@inheritdoc}
+     * @param string           $extensionName
+     * @param array            $extensionConfigs
+     * @param ContainerBuilder $container
+     *
+     * @return array
      */
-    public function getExtensionConfig($extensionName, array $extensionConfigs, ContainerBuilder $container)
+    public function getExtensionConfig($extensionName, array $extensionConfigs, ContainerBuilder $container): array
     {
         // translations
-        if ($extensionName === 'framework') {
-            $extensionConfigs[0]['translator']['paths'][] = '%kernel.project_dir%/vendor/dreibein/contao-push-bundle/src/Resources/translations';
+        if ('framework' === $extensionName) {
+            $extensionConfigs[0]['translator']['paths'][] = '%kernel.project_dir%/vendor/dreibein/contao-push-bundle/translations';
         }
 
         // doctrine mapping
-        if ($extensionName === 'doctrine') {
+        if ('doctrine' === $extensionName) {
             $extensionConfigs[0]['orm']['mappings']['ContaoPushBundle'] = [
                 'type' => 'annotation',
             ];

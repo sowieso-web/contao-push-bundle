@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /*
  * This file is part of the Contao Push Bundle.
- * (c) Werbeagentur Dreibein GmbH
+ * (c) Digitalagentur Dreibein GmbH
  */
 
 namespace Dreibein\ContaoPushBundle\Controller;
@@ -21,20 +21,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PushController extends AbstractController
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
-
-    /**
-     * @var PushRepository
-     */
-    private $pushRepository;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private EntityManagerInterface $em;
+    private PushRepository $pushRepository;
+    private LoggerInterface $logger;
 
     public function __construct(EntityManagerInterface $em, PushRepository $pushRepository, LoggerInterface $logger)
     {
@@ -45,10 +34,20 @@ class PushController extends AbstractController
 
     /**
      * @Route("/_push/subscription", name="push_subscription", defaults={"_scope"="frontend", "_token_check"=false})
+     *
+     * @param Request $request
+     *
+     * @throws \ErrorException
+     *
+     * @return Response
      */
-    public function handleSubscription(Request $request)
+    public function handleSubscription(Request $request): Response
     {
-        $payload = json_decode($request->getContent(), true);
+        try {
+            $payload = json_decode($request->getContent(), true, 512, \JSON_THROW_ON_ERROR);
+        } catch (\JsonException $e) {
+            $payload = null;
+        }
 
         if (!$payload) {
             return new Response('Please provide a valid JSON payload', Response::HTTP_BAD_REQUEST);
@@ -78,9 +77,13 @@ class PushController extends AbstractController
         return new Response('', Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
+    /**
+     * @param Subscription $subscription
+     * @param Push|null    $push
+     */
     private function updatePush(Subscription $subscription, ?Push $push): void
     {
-        if ($push === null) {
+        if (null === $push) {
             $push = new Push();
         }
 

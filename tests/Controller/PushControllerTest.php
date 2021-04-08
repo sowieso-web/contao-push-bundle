@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /*
  * This file is part of the Contao Push Bundle.
- * (c) Werbeagentur Dreibein GmbH
+ * (c) Digitalagentur Dreibein GmbH
  */
 
 namespace Dreibein\ContaoPushBundle\Tests\Controller;
@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Dreibein\ContaoPushBundle\Controller\PushController;
 use Dreibein\ContaoPushBundle\Entity\Push;
 use Dreibein\ContaoPushBundle\Repository\PushRepository;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,15 +21,17 @@ use Symfony\Component\HttpFoundation\Request;
 class PushControllerTest extends TestCase
 {
     /**
-     * @var EntityManagerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var EntityManagerInterface|MockObject
      */
     private $em;
+
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|LoggerInterface
+     * @var MockObject|LoggerInterface
      */
     private $logger;
+
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|PushRepository
+     * @var MockObject|PushRepository
      */
     private $pushRepository;
 
@@ -39,6 +42,10 @@ class PushControllerTest extends TestCase
         $this->pushRepository = $this->createMock(PushRepository::class);
     }
 
+    /**
+     * @throws \ErrorException
+     * @throws \JsonException
+     */
     public function testHandleSubscriptionWithoutPayload(): void
     {
         $request = $this->createRequest('ANY', false);
@@ -47,26 +54,30 @@ class PushControllerTest extends TestCase
 
         $response = $controller->handleSubscription($request);
 
-        $this->assertSame(400, $response->getStatusCode());
+        self::assertSame(400, $response->getStatusCode());
     }
 
+    /**
+     * @throws \ErrorException
+     * @throws \JsonException
+     */
     public function testHandleSubscriptionWithSuccessfulPost(): void
     {
         $request = $this->createRequest('POST', true);
 
         $this->pushRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneBy')
             ->willReturn(null)
         ;
 
         $this->em
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('persist')
         ;
 
         $this->em
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('flush')
         ;
 
@@ -74,9 +85,13 @@ class PushControllerTest extends TestCase
 
         $response = $controller->handleSubscription($request);
 
-        $this->assertSame(201, $response->getStatusCode());
+        self::assertSame(201, $response->getStatusCode());
     }
 
+    /**
+     * @throws \ErrorException
+     * @throws \JsonException
+     */
     public function testHandleSubscriptionWithSuccessfulPut(): void
     {
         $request = $this->createRequest('PUT', true);
@@ -84,18 +99,18 @@ class PushControllerTest extends TestCase
         $push = $this->getPushMock();
 
         $this->pushRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneBy')
             ->willReturn($push)
         ;
 
         $this->em
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('persist')
         ;
 
         $this->em
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('flush')
         ;
 
@@ -103,26 +118,30 @@ class PushControllerTest extends TestCase
 
         $response = $controller->handleSubscription($request);
 
-        $this->assertSame(200, $response->getStatusCode());
+        self::assertSame(200, $response->getStatusCode());
     }
 
+    /**
+     * @throws \ErrorException
+     * @throws \JsonException
+     */
     public function testHandleSubscriptionWithPutAndNonExistentPushEntry(): void
     {
         $request = $this->createRequest('PUT', true);
 
         $this->pushRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneBy')
             ->willReturn(null)
         ;
 
         $this->em
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('persist')
         ;
 
         $this->em
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('flush')
         ;
 
@@ -130,9 +149,13 @@ class PushControllerTest extends TestCase
 
         $response = $controller->handleSubscription($request);
 
-        $this->assertSame(200, $response->getStatusCode());
+        self::assertSame(200, $response->getStatusCode());
     }
 
+    /**
+     * @throws \ErrorException
+     * @throws \JsonException
+     */
     public function testHandleSubscriptionWithDelete(): void
     {
         $request = $this->createRequest('DELETE', true);
@@ -140,24 +163,28 @@ class PushControllerTest extends TestCase
         $push = $this->getPushMock();
 
         $this->pushRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneBy')
             ->willReturn($push)
         ;
 
         $this->em
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('remove')
-            ->with($this->equalTo($push))
+            ->with(self::equalTo($push))
         ;
 
         $controller = new PushController($this->em, $this->pushRepository, $this->logger);
 
         $response = $controller->handleSubscription($request);
 
-        $this->assertSame(204, $response->getStatusCode());
+        self::assertSame(204, $response->getStatusCode());
     }
 
+    /**
+     * @throws \ErrorException
+     * @throws \JsonException
+     */
     public function testHandleSubscriptionWithUnallowedMethod(): void
     {
         $request = $this->createRequest('PATCH', true);
@@ -166,22 +193,33 @@ class PushControllerTest extends TestCase
 
         $response = $controller->handleSubscription($request);
 
-        $this->assertSame(405, $response->getStatusCode());
+        self::assertSame(405, $response->getStatusCode());
     }
 
-    private function createRequest(string $method, bool $usePayload)
+    /**
+     * @param string $method
+     * @param bool   $usePayload
+     *
+     * @throws \JsonException
+     *
+     * @return Request
+     */
+    private function createRequest(string $method, bool $usePayload): Request
     {
         $push = null;
         $payload = null;
         if ($usePayload) {
             $push = $this->getPushMock();
-            $payload = json_encode($push->toArray());
+            $payload = json_encode($push->toArray(), \JSON_THROW_ON_ERROR);
         }
 
         return Request::create('/', $method, [], [], [], [], $payload);
     }
 
-    private function getPushMock()
+    /**
+     * @return Push
+     */
+    private function getPushMock(): Push
     {
         return (new Push())
             ->setEndpoint('custom-endpoint')

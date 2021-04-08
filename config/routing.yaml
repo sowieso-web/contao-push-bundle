@@ -1,4 +1,4 @@
 contao_push:
-    resource: '../../Controller'
+    resource: '../src/Controller'
     type: annotation
 

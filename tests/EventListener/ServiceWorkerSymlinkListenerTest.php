@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /*
  * This file is part of the Contao Push Bundle.
- * (c) Werbeagentur Dreibein GmbH
+ * (c) Digitalagentur Dreibein GmbH
  */
 
 namespace Dreibein\ContaoPushBundle\Tests\EventListener;
@@ -20,7 +20,7 @@ class ServiceWorkerSymlinkListenerTest extends TestCase
         $event = $this->createMock(GenerateSymlinksEvent::class);
 
         $event
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('addSymlink')
             ->withConsecutive(
                 ['web/bundles/contaopush/sw.js', 'web/contao-push-sw.js']

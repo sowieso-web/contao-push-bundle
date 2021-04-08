@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /*
  * This file is part of the Contao Push Bundle.
- * (c) Werbeagentur Dreibein GmbH
+ * (c) Digitalagentur Dreibein GmbH
  */
 
 namespace Dreibein\ContaoPushBundle\Tests;
@@ -19,6 +19,6 @@ class ContaoPushBundleTest extends TestCase
     {
         $bundle = new ContaoPushBundle();
 
-        $this->assertInstanceOf(Bundle::class, $bundle);
+        self::assertInstanceOf(Bundle::class, $bundle);
     }
 }

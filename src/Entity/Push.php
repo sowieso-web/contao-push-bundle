@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /*
  * This file is part of the Contao Push Bundle.
- * (c) Werbeagentur Dreibein GmbH
+ * (c) Digitalagentur Dreibein GmbH
  */
 
 namespace Dreibein\ContaoPushBundle\Entity;
@@ -22,38 +22,49 @@ class Push
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $endpoint;
+    private string $endpoint;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $publicKey;
+    private string $publicKey;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $authToken;
+    private string $authToken;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $contentEncoding;
+    private string $contentEncoding;
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getEndpoint(): ?string
     {
         return $this->endpoint;
     }
 
+    /**
+     * @param string $endpoint
+     *
+     * @return $this
+     */
     public function setEndpoint(string $endpoint): self
     {
         $this->endpoint = $endpoint;
@@ -61,11 +72,19 @@ class Push
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPublicKey(): ?string
     {
         return $this->publicKey;
     }
 
+    /**
+     * @param string $publicKey
+     *
+     * @return $this
+     */
     public function setPublicKey(string $publicKey): self
     {
         $this->publicKey = $publicKey;
@@ -73,11 +92,19 @@ class Push
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getAuthToken(): ?string
     {
         return $this->authToken;
     }
 
+    /**
+     * @param string $authToken
+     *
+     * @return $this
+     */
     public function setAuthToken(string $authToken): self
     {
         $this->authToken = $authToken;
@@ -85,11 +112,19 @@ class Push
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getContentEncoding(): ?string
     {
         return $this->contentEncoding;
     }
 
+    /**
+     * @param string $contentEncoding
+     *
+     * @return $this
+     */
     public function setContentEncoding(string $contentEncoding): self
     {
         $this->contentEncoding = $contentEncoding;
@@ -97,6 +132,9 @@ class Push
         return $this;
     }
 
+    /**
+     * @return null[]|string[]
+     */
     public function toArray(): array
     {
         return [

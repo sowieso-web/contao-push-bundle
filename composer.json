@@ -1,13 +1,14 @@
 {
     "name": "dreibein/contao-push-bundle",
-    "description": "Add Push Notifications to your Contao installation",
     "type": "contao-bundle",
+    "description": "Add Push Notifications to your Contao installation",
+    "homepage": "https://www.agentur-dreibein.de",
     "license": "MIT",
     "authors": [
         {
             "name": "Agentur Dreibein",
             "homepage": "https://www.agentur-dreibein.de",
-            "email": "info@agentur-dreibein.de",
+            "email": "development@agentur-dreibein.de",
             "role": "Developer"
         }
     ],
@@ -16,7 +17,7 @@
         "source": "https://github.com/dreibein/contao-push-bundle"
     },
     "require": {
-        "php": ">=7.3",
+        "php": "^7.4 || ^8.0",
         "ext-json": "*",
         "contao/core-bundle": "^4.9",
         "contao/news-bundle": "^4.9",
@@ -24,8 +25,8 @@
     },
     "require-dev": {
         "contao/manager-plugin": "^2.0",
-        "friendsofphp/php-cs-fixer": "^2.14",
-        "phpunit/phpunit": "^8.5"
+        "friendsofphp/php-cs-fixer": "^2.18",
+        "phpunit/phpunit": "^9.5"
     },
     "conflict": {
         "contao/manager-plugin": "<2.0 || >=3.0"
@@ -35,12 +36,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Dreibein\\ContaoPushBundle\\": "src"
+            "Dreibein\\ContaoPushBundle\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Dreibein\\ContaoPushBundle\\Tests\\": "tests"
+            "Dreibein\\ContaoPushBundle\\Tests\\": "tests/"
         }
     }
 }

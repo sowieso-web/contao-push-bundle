@@ -11,7 +11,7 @@ services:
         arguments:
             - '@parameter_bag'
         tags:
-            - { name: contao.frontend_module, category: push }
+            - { name: contao.frontend_module, category: push, type: push_notification_button }
 
     contao_push.data_container.news:
         class: Dreibein\ContaoPushBundle\DataContainer\News

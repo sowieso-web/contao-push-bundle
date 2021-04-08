@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /*
  * This file is part of the Contao Push Bundle.
- * (c) Werbeagentur Dreibein GmbH
+ * (c) Digitalagentur Dreibein GmbH
  */
 
 namespace Dreibein\ContaoPushBundle\Tests\ContaoManager;
@@ -24,14 +24,17 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 class PluginTest extends TestCase
 {
+    /**
+     * @throws \Exception
+     */
     public function testRegisterContainerConfiguration(): void
     {
         $loader = $this->createMock(LoaderInterface::class);
 
         $loader
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('load')
-            ->with($this->stringContains('Resources/config/services.yml'))
+            ->with(self::stringContains('config/services.yml'))
         ;
 
         $plugin = new Plugin();
@@ -48,16 +51,13 @@ class PluginTest extends TestCase
         /** @var BundleConfig[] $bundles */
         $bundles = $plugin->getBundles($parser);
 
-        $this->assertCount(2, $bundles);
+        self::assertCount(2, $bundles);
 
-        $this->assertEquals(MinishlinkWebPushBundle::class, $bundles[0]->getName());
-        $this->assertSame(
-            [],
-            $bundles[0]->getLoadAfter()
-        );
+        self::assertEquals(MinishlinkWebPushBundle::class, $bundles[0]->getName());
+        self::assertSame([], $bundles[0]->getLoadAfter());
 
-        $this->assertEquals(ContaoPushBundle::class, $bundles[1]->getName());
-        $this->assertSame(
+        self::assertEquals(ContaoPushBundle::class, $bundles[1]->getName());
+        self::assertSame(
             [
                 ContaoCoreBundle::class,
                 ContaoNewsBundle::class,
@@ -67,6 +67,9 @@ class PluginTest extends TestCase
         );
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testGetRouteCollection(): void
     {
         $resolver = $this->createMock(LoaderResolverInterface::class);
@@ -74,16 +77,16 @@ class PluginTest extends TestCase
         $kernel = $this->createMock(KernelInterface::class);
 
         $resolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('resolve')
-            ->with($this->stringContains('Resources/config/routing.yml'))
+            ->with(self::stringContains('config/routing.yml'))
             ->willReturn($loader)
         ;
 
         $loader
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('load')
-            ->with($this->stringContains('Resources/config/routing.yml'))
+            ->with(self::stringContains('config/routing.yml'))
         ;
 
         $plugin = new Plugin();
@@ -106,7 +109,7 @@ class PluginTest extends TestCase
 
         $modifiedConfig = $plugin->getExtensionConfig('framework', $extensionConfigs, $container);
 
-        $this->assertCount(1, $modifiedConfig[0]['translator']['paths']);
+        self::assertCount(1, $modifiedConfig[0]['translator']['paths']);
     }
 
     public function testGetExtensionConfigAddsDoctrineMapping(): void
@@ -124,7 +127,7 @@ class PluginTest extends TestCase
 
         $modifiedConfig = $plugin->getExtensionConfig('doctrine', $extensionConfigs, $container);
 
-        $this->assertCount(1, $modifiedConfig[0]['orm']['mappings']);
-        $this->assertArrayHasKey('ContaoPushBundle', $modifiedConfig[0]['orm']['mappings']);
+        self::assertCount(1, $modifiedConfig[0]['orm']['mappings']);
+        self::assertArrayHasKey('ContaoPushBundle', $modifiedConfig[0]['orm']['mappings']);
     }
 }
