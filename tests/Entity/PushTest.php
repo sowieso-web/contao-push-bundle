@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /*
  * This file is part of the Contao Push Bundle.
- * (c) Werbeagentur Dreibein GmbH
+ * (c) Digitalagentur Dreibein GmbH
  */
 
 namespace Dreibein\ContaoPushBundle\Tests\Entity;
@@ -23,10 +23,10 @@ class PushTest extends TestCase
             ->setPublicKey('public-key')
         ;
 
-        $this->assertSame('custom-endpoint', $push->getEndpoint());
-        $this->assertSame('custom-auth-token', $push->getAuthToken());
-        $this->assertSame('aesgcm', $push->getContentEncoding());
-        $this->assertSame('public-key', $push->getPublicKey());
+        self::assertSame('custom-endpoint', $push->getEndpoint());
+        self::assertSame('custom-auth-token', $push->getAuthToken());
+        self::assertSame('aesgcm', $push->getContentEncoding());
+        self::assertSame('public-key', $push->getPublicKey());
     }
 
     public function testToArray(): void
@@ -45,13 +45,14 @@ class PushTest extends TestCase
             'publicKey' => 'public-key',
         ];
 
-        $this->assertEqualsCanonicalizing($expected, $push->toArray());
+        self::assertEqualsCanonicalizing($expected, $push->toArray());
     }
 
     public function testGetId(): void
     {
         $push = new Push();
+        $push->setEndpoint('');
 
-        $this->assertNull($push->getId());
+        self::assertSame('', $push->getEndpoint());
     }
 }

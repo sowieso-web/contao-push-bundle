@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /*
  * This file is part of the Contao Push Bundle.
- * (c) Werbeagentur Dreibein GmbH
+ * (c) Digitalagentur Dreibein GmbH
  */
 
 namespace Dreibein\ContaoPushBundle\Tests\DataContainer;
@@ -13,6 +13,7 @@ use Contao\CoreBundle\Framework\Adapter;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Dreibein\ContaoPushBundle\DataContainer\News;
 use Dreibein\ContaoPushBundle\Push\PushManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -20,15 +21,15 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class NewsTest extends TestCase
 {
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|PushManager
+     * @var MockObject|PushManager
      */
     private $manager;
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|RequestStack
+     * @var MockObject|RequestStack
      */
     private $requestStack;
     /**
-     * @var ContaoFramework|\PHPUnit\Framework\MockObject\MockObject
+     * @var ContaoFramework|MockObject
      */
     private $framework;
 
@@ -39,6 +40,10 @@ class NewsTest extends TestCase
         $this->framework = $this->createMock(ContaoFramework::class);
     }
 
+    /**
+     * @throws \ErrorException
+     * @throws \JsonException
+     */
     public function testOnLoadDoesNothingWithoutSendPushQueryParameter(): void
     {
         $this->requestStack
@@ -47,7 +52,7 @@ class NewsTest extends TestCase
         ;
 
         $this->framework
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('initialize')
         ;
 
@@ -59,6 +64,10 @@ class NewsTest extends TestCase
         $news->onLoad($dc);
     }
 
+    /**
+     * @throws \ErrorException
+     * @throws \JsonException
+     */
     public function testOnLoadTriggersPushNotification(): void
     {
         $request = new Request(['sendPush' => 1]);
@@ -69,7 +78,7 @@ class NewsTest extends TestCase
         ;
 
         $this->framework
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('initialize')
         ;
 
@@ -97,13 +106,13 @@ class NewsTest extends TestCase
         ;
 
         $this->framework
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('getAdapter')
             ->willReturn($controllerMock, $newsModelMock)
         ;
 
         $this->manager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('sendNotification')
         ;
 

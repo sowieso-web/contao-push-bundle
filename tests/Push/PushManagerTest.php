@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /*
  * This file is part of the Contao Push Bundle.
- * (c) Werbeagentur Dreibein GmbH
+ * (c) Digitalagentur Dreibein GmbH
  */
 
 namespace Dreibein\ContaoPushBundle\Tests\Push;
@@ -15,6 +15,7 @@ use Dreibein\ContaoPushBundle\Push\PushManager;
 use Dreibein\ContaoPushBundle\Repository\PushRepository;
 use Minishlink\WebPush\MessageSentReport;
 use Minishlink\WebPush\WebPush;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
@@ -22,22 +23,22 @@ use Psr\Log\LoggerInterface;
 class PushManagerTest extends TestCase
 {
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|LoggerInterface
+     * @var MockObject|LoggerInterface
      */
     private $logger;
 
     /**
-     * @var WebPush|\PHPUnit\Framework\MockObject\MockObject
+     * @var WebPush|MockObject
      */
     private $push;
 
     /**
-     * @var EntityManagerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var EntityManagerInterface|MockObject
      */
     private $em;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|PushRepository
+     * @var MockObject|PushRepository
      */
     private $pushRepository;
 
@@ -52,20 +53,25 @@ class PushManagerTest extends TestCase
     /**
      * @dataProvider getNotificationData
      *
-     * @param mixed $data
-     * @param mixed $subscriptionLength
-     * @param mixed $successful
-     * @param mixed $loggerMethod
+     * @param string $title
+     * @param string $body
+     * @param $data
+     * @param $subscriptionLength
+     * @param $successful
+     * @param $loggerMethod
+     *
+     * @throws \ErrorException
+     * @throws \JsonException
      */
     public function testSendNotification(string $title, string $body, $data, $subscriptionLength, $successful, $loggerMethod): void
     {
         $this->pushRepository
             ->method('findAll')
-            ->willReturn($this->createSubscriptions($subscriptionLength))
+            ->willReturn($this->createSubscriptions((int) $subscriptionLength))
         ;
 
         $this->push
-            ->expects($this->exactly($subscriptionLength))
+            ->expects(self::exactly($subscriptionLength))
             ->method('sendNotification')
         ;
 
@@ -78,19 +84,19 @@ class PushManagerTest extends TestCase
         ;
 
         $report
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('isSuccess')
             ->willReturn($successful)
         ;
 
         $report
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getRequest')
             ->willReturn($request)
         ;
 
         $this->push
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('flush')
             ->willReturnCallback(function () use ($report) {
                 yield $report;
@@ -98,7 +104,7 @@ class PushManagerTest extends TestCase
         ;
 
         $this->logger
-            ->expects($this->atLeastOnce())
+            ->expects(self::atLeastOnce())
             ->method($loggerMethod)
         ;
 
@@ -107,7 +113,7 @@ class PushManagerTest extends TestCase
         $manager->sendNotification($title, $body, $data);
     }
 
-    public function getNotificationData()
+    public function getNotificationData(): \Generator
     {
         yield 'Some subscriptions' => [
             'Title',
@@ -128,7 +134,12 @@ class PushManagerTest extends TestCase
         ];
     }
 
-    public function createSubscriptions($length = 0): array
+    /**
+     * @param int $length
+     *
+     * @return array
+     */
+    public function createSubscriptions(int $length = 0): array
     {
         $subs = [];
 

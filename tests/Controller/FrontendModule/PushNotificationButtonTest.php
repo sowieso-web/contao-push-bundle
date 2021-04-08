@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /*
  * This file is part of the Contao Push Bundle.
- * (c) Werbeagentur Dreibein GmbH
+ * (c) Digitalagentur Dreibein GmbH
  */
 
 namespace Dreibein\ContaoPushBundle\Tests\Controller\FrontendModule;
@@ -46,7 +46,7 @@ class PushNotificationButtonTest extends TestCase
 
         $controller->getResponse($template, $model, $request);
 
-        $this->assertSame("<script>const applicationServerKey = 'generated-public-key-from-config.yml';</script>", $GLOBALS['TL_BODY']['contao_push_key']);
-        $this->assertSame('<script src="/bundles/contaopush/main.min.js"></script>', $GLOBALS['TL_BODY']['contao_push']);
+        self::assertSame("<script>const applicationServerKey = 'generated-public-key-from-config.yml';</script>", $GLOBALS['TL_BODY']['contao_push_key']);
+        self::assertSame('<script src="/bundles/contaopush/main.min.js"></script>', $GLOBALS['TL_BODY']['contao_push']);
     }
 }
