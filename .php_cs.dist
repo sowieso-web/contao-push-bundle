@@ -6,7 +6,6 @@ This file is part of the Contao Push Bundle.
 EOF;
 $finder = PhpCsFixer\Finder::create()
     ->in([
-        __DIR__.'/contao',
         __DIR__.'/src',
         __DIR__.'/tests',
     ])
