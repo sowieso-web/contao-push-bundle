@@ -21,7 +21,7 @@
         "ext-json": "*",
         "contao/core-bundle": "^4.9",
         "contao/news-bundle": "^4.9",
-        "minishlink/web-push-bundle": "^5.0"
+        "minishlink/web-push-bundle": "^6.0"
     },
     "require-dev": {
         "contao/manager-plugin": "^2.0",

@@ -62,7 +62,7 @@ class PushManager
             $subscription = Subscription::create($sub->toArray());
 
             // prepare the subscription for sending
-            $this->push->sendNotification($subscription, $payload);
+            $this->push->queueNotification($subscription, $payload);
         }
 
         $this->flushNotifications();
