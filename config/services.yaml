@@ -5,6 +5,8 @@ services:
             - '@doctrine.orm.entity_manager'
             - '@contao_push.repository.push'
             - '@monolog.logger.contao'
+        calls:
+            - [setContainer, ['@service_container']]
 
     contao_push.controller.module_push_notification_button:
         class: Dreibein\ContaoPushBundle\Controller\FrontendModule\PushNotificationButton
