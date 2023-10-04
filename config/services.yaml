@@ -26,6 +26,8 @@ services:
 
     contao_push.listener.symlink.service_worker:
         class: Dreibein\ContaoPushBundle\EventListener\ServiceWorkerSymlinkListener
+        arguments:
+            - '@parameter_bag'
         tags:
             - { name: kernel.event_listener, event: contao.generate_symlinks, method: onGenerateSymlinks, priority: 128 }
 

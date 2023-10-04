@@ -10,14 +10,26 @@ declare(strict_types=1);
 namespace Dreibein\ContaoPushBundle\EventListener;
 
 use Contao\CoreBundle\Event\GenerateSymlinksEvent;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 final class ServiceWorkerSymlinkListener
 {
+    /**
+     * @var ParameterBagInterface
+     */
+    private $bag;
+
+    public function __construct(ParameterBagInterface $bag)
+    {
+        $this->bag = $bag;
+    }
+
     /**
      * @param GenerateSymlinksEvent $event
      */
     public function onGenerateSymlinks(GenerateSymlinksEvent $event): void
     {
-        $event->addSymlink('web/bundles/contaopush/sw.js', 'web/contao-push-sw.js');
+        $webDir = $this->bag->get('contao.web_dir');
+        $event->addSymlink($webDir . '/bundles/contaopush/sw.js', $webDir . '/contao-push-sw.js');
     }
 }
